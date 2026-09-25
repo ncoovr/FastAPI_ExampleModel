@@ -1,9 +1,15 @@
 from fastapi import FastAPI, status, HTTPException, Response
 from sqlmodel import Session, SQLModel, create_engine, select
 from .models import User, Post, UserCreate, PostCreate
+import os
+from dotenv import load_dotenv
 
-sqlite_url = "sqlite:///posts.db"
-engine = create_engine(sqlite_url)
+# Carga las variables del archivo .env
+load_dotenv()
+
+# Lee la URL de conexión de forma segura
+POSTGRES_URL = os.getenv("DATABASE_URL")
+engine = create_engine(POSTGRES_URL)
 
 def create_db_and_tables():
     SQLModel.metadata.create_all(engine)
@@ -16,7 +22,7 @@ def on_startup():
 
 @app.get("/")
 def root():
-    return {"message": "API funcionando con SQLite y SQLModel"}
+    return {"message": "API funcionando con PostgreSQL y SQLModel"}
 
 
 @app.post("/users", status_code=status.HTTP_201_CREATED)
