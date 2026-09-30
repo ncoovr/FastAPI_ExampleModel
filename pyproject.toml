@@ -8,7 +8,9 @@ authors = [
 ]
 requires-python = ">=3.14"
 dependencies = [
+    "bcrypt>=5.0.0",
     "fastapi[standard]>=0.141.1",
+    "passlib>=1.7.4",
     "psycopg2-binary>=2.9.13",
     "python-dotenv>=1.2.3",
     "sqlmodel>=0.0.42",

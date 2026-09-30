@@ -1,24 +1,57 @@
-from typing import Optional
-from sqlmodel import Field, SQLModel
+from datetime import datetime, timezone
+from typing import Optional, List
+from sqlmodel import Field, SQLModel, Relationship
 
-class User(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
-    username: str = Field(unique=True, index=True)
-    email: str = Field(unique=True)
-
-class Post(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
+# --- USUARIO ---
+class UsuarioBase(SQLModel):
     name: str
-    content: str
-    published: bool = Field(default=True)
-    user_id: Optional[int] = Field(default=None, foreign_key="user.id")
+    email: str = Field(unique=True, index=True)
 
-class UserCreate(SQLModel):
-    username: str
+class UsuarioCreate(UsuarioBase):
+    password: str
+
+class UsuarioLogin(SQLModel):
     email: str
+    password: str
 
-class PostCreate(SQLModel):
-    name: str
+class Usuario(UsuarioBase, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    password_hash: str
+    videos: List["Video"] = Relationship(back_populates="usuario")
+    comentarios: List["Comentario"] = Relationship(back_populates="usuario")
+
+# --- VIDEO ---
+class VideoBase(SQLModel):
+    title: str
+    description: str
+    video_url: str
+    thumbnail_url: str
+    views: int = Field(default=0)
+    user_id: int = Field(foreign_key="usuario.id")
+
+class VideoCreate(VideoBase):
+    pass
+
+class VideoUpdate(SQLModel):
+    title: Optional[str] = None
+    description: Optional[str] = None
+
+class Video(VideoBase, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    usuario: Optional[Usuario] = Relationship(back_populates="videos")
+    comentarios: List["Comentario"] = Relationship(back_populates="video", cascade_delete=True)
+
+# --- COMENTARIO ---
+class ComentarioBase(SQLModel):
     content: str
-    published: bool = True
-    user_id: Optional[int] = None
+    user_id: int = Field(foreign_key="usuario.id")
+    video_id: int = Field(foreign_key="video.id")
+
+class ComentarioCreate(ComentarioBase):
+    pass
+
+class Comentario(ComentarioBase, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    usuario: Optional[Usuario] = Relationship(back_populates="comentarios")
+    video: Optional[Video] = Relationship(back_populates="comentarios")
