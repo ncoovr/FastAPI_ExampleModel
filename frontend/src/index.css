@@ -1,0 +1,191 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap');
+
+body {
+  margin: 0;
+  background-color: #09090b; /* Fondo oscuro principal */
+  color: #ffffff;
+  font-family: 'Nunito', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- ESTRUCTURA GENERAL --- */
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* --- SIDEBAR (PANEL LATERAL FIJO) --- */
+.sidebar {
+  width: 250px;
+  background-color: #121212;
+  border-right: 1px solid #27272a;
+  display: flex;
+  flex-direction: column; /* Esto fuerza que se apilen hacia abajo */
+  padding: 24px;
+  position: fixed; /* Se queda fijo aunque hagas scroll */
+  top: 0;
+  left: 0;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  margin-bottom: 40px;
+}
+
+.sidebar-logo span {
+  color: white;
+  font-weight: 800;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+}
+
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+/* --- HOVERS DE LOS BOTONES DEL MENÚ --- */
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: #a1a1aa;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  background-color: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+
+/* Magia del hover: fondo gris, texto verde y movimiento sutil */
+.nav-link:hover {
+  background-color: #27272a;
+  color: #1db954; 
+  transform: translateX(8px); 
+}
+
+.nav-link.logout:hover {
+  color: #ef4444; /* El botón de salir se pinta rojo al pasar el mouse */
+}
+
+/* --- CONTENIDO PRINCIPAL --- */
+.main-content {
+  flex: 1;
+  margin-left: 250px;
+  min-height: 100vh;
+  padding: 40px 50px; /* Esto crea la separación entre la barra y la página */
+  box-sizing: border-box;
+  max-width: calc(100% - 250px); 
+}
+
+/* --- BANNER SPOTIFY --- */
+.home-banner {
+  background: linear-gradient(to bottom, rgba(29, 185, 84, 0.25) 0%, rgba(9, 9, 11, 0) 100%);
+  padding: 60px 40px 40px 40px;
+  margin-bottom: 30px;
+}
+
+.home-banner h1 {
+  font-size: 3rem;
+  margin: 0;
+  font-weight: 800;
+}
+
+.video-grid {
+  padding: 0 40px 40px 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+/* --- HOVER DE LAS TARJETAS (PINTEREST) --- */
+.video-card {
+  background-color: #18181b;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.video-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(29, 185, 84, 0.15);
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: 70px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    border-right: none;
+    border-bottom: 1px solid #27272a;
+    position: fixed;
+    z-index: 1000;
+  }
+  
+  .sidebar-logo {
+    margin-bottom: 0;
+  }
+  
+  .sidebar-logo span {
+    display: none; /* Oculta el texto U|STREAM en celular para ahorrar espacio */
+  }
+  
+  .sidebar-menu {
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .sidebar-menu > div {
+    margin-top: 0 !important; /* Corrige el salto del botón de salir en celular */
+  }
+  
+  .nav-link {
+    padding: 8px;
+    width: auto;
+  }
+  
+  .nav-link span {
+    display: none; /* Oculta el texto de los botones, deja solo los íconos */
+  }
+  
+  .nav-link:hover {
+    transform: translateY(-4px); /* El efecto de salto ahora es hacia arriba */
+  }
+  
+  .main-content {
+    margin-left: 0;
+    margin-top: 70px; /* Compensa el espacio de la nueva barra superior */
+    padding: 20px;
+    max-width: 100%;
+  }
+  
+  .home-banner {
+    margin: -20px -20px 20px -20px;
+    padding: 40px 20px 20px 20px;
+  }
+  
+  .video-grid {
+    padding: 0;
+    grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); /* Una sola columna en móvil */
+  }
+}

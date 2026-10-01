@@ -24,6 +24,13 @@ def get_video(id: int, session: SessionDep):
     video = session.get(Video, id)
     if not video:
         raise HTTPException(status_code=404, detail="Video no encontrado")
+    
+    # Sumar una vista automáticamente antes de devolver el video
+    video.views += 1
+    session.add(video)
+    session.commit()
+    session.refresh(video)
+    
     return video
 
 @router.put("/{id}")

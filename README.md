@@ -1,70 +1,98 @@
-# FastAPI & SQLModel CRUD API - Usuarios y Posts
+# 🎬 U|STREAM - Plataforma de Streaming
 
-Este proyecto es una API RESTful desarrollada con **FastAPI**, utilizando **SQLModel** como ORM y **SQLite** como base de datos local. Cumple con el objetivo de implementar operaciones CRUD (Crear, Leer, Actualizar, Eliminar) con relaciones entre dos entidades principales: `User` y `Post`.
+Plataforma web de video inspirada en la estética y funcionalidad de Spotify y Pinterest. Desarrollada con una arquitectura cliente-servidor moderna, base de datos relacional y diseño responsivo.
 
 ## 🛠️ Tecnologías Utilizadas
-* **Python** 
-* **FastAPI:** Framework web moderno y rápido para construir APIs.
-* **SQLModel:** ORM que combina SQLAlchemy y Pydantic.
-* **SQLite:** Motor de base de datos relacional ligero.
-* **uv:** Gestor de paquetes y entornos virtuales ultra rápido.
 
-## 🚀 Instalación y Configuración Local
+*   **Backend:** Python, FastAPI, SQLModel, PostgreSQL, `uv` (Gestor de paquetes).
+*   **Frontend:** React, Vite, React Router, Lucide React, CSS (Atomic/Responsive Design).
+*   **Seguridad:** Hashing de contraseñas con `bcrypt`.
 
-Sigue estos pasos para replicar el entorno y ejecutar la API en tu máquina local.
+---
 
-### 1. Clonar el repositorio
-Abre tu terminal (PowerShell o Git Bash) y clona el proyecto:
+## 📋 Requisitos Previos (Instalación desde cero)
+
+Para ejecutar este proyecto en tu máquina local, necesitas instalar las siguientes herramientas:
+
+### 1. Node.js y npm (Para el Frontend)
+Descarga e instala la versión recomendada (LTS) de Node.js desde su página oficial:
+*   [Descargar Node.js](https://nodejs.org/)
+*   Para verificar que se instaló correctamente, abre tu terminal y ejecuta: `node -v` y `npm -v`.
+
+### 2. Gestor de paquetes `uv` (Para el Backend en Python)
+`uv` es una herramienta ultrarrápida para gestionar proyectos en Python. Instálala abriendo tu terminal y ejecutando el comando correspondiente a tu sistema operativo:
+*   **Windows (PowerShell):**
+    ```powershell
+    powershell -ExecutionPolicy ByPass -c "irm [https://astral.sh/uv/install.ps1](https://astral.sh/uv/install.ps1) | iex"
+    ```
+*   **macOS / Linux:**
+    ```bash
+    curl -LsSf [https://astral.sh/uv/install.sh](https://astral.sh/uv/install.sh) | sh
+    ```
+
+### 3. PostgreSQL (Base de Datos)
+*   Instala PostgreSQL y pgAdmin desde [postgresql.org](https://www.postgresql.org/download/).
+*   Abre pgAdmin (o usa la terminal `psql`) y crea una base de datos vacía. Puedes llamarla, por ejemplo, `ustream_db`.
+
+### 4. Git
+Si aún no lo tienes, instala Git desde [git-scm.com](https://git-scm.com/) para poder clonar el repositorio.
+
+---
+
+## 🚀 Guía de Instalación y Ejecución Paso a Paso
+
+### Paso 1: Clonar el repositorio
+Abre tu terminal, navega a la carpeta donde deseas guardar el proyecto y ejecuta:
 ```bash
-git clone [https://github.com/ncoovr/FastAPI_ExampleModel.git](https://github.com/ncoovr/FastAPI_ExampleModel.git)
-cd FastAPI_ExampleModel
+git clone [https://github.com/TU_USUARIO/TU_REPOSITORIO.git](https://github.com/TU_USUARIO/TU_REPOSITORIO.git)
+cd TU_REPOSITORIO
+Paso 2: Configuración de Variables de Entorno
+El proyecto necesita saber cómo conectarse a tu base de datos local.
 
-2. Inicializar el proyecto con uv
-Si no tienes uv instalado, instálalo primero. Luego, inicializa el proyecto para crear la configuración base:
+En la carpeta raíz del proyecto, busca el archivo .env.example y haz una copia de él llamándola .env.
 
-Bash
-uv init
-(Nota: Si se genera un archivo hello.py por defecto, puedes eliminarlo).
+Abre el archivo .env y configura tu cadena de conexión a PostgreSQL:
 
-3. Instalar las dependencias
-Instala FastAPI, SQLModel y genera el entorno virtual automáticamente en un solo comando:
+Ini, TOML
+# Reemplaza 'usuario', 'contraseña' y 'ustream_db' con tus datos de pgAdmin
+DATABASE_URL=postgresql://usuario:contraseña@localhost:5432/ustream_db
+Paso 3: Levantar el Backend (FastAPI)
+Desde la misma terminal en la raíz del proyecto, usaremos uv para instalar Python, crear el entorno virtual y descargar las librerías automáticamente:
 
-Bash
-uv add "fastapi[standard]" sqlmodel --system-certs
-4. Estructura del Código
-El código fuente se encuentra alojado bajo la estructura de paquetes de Python en la ruta src/fastapi_examplemodel/:
-
-models.py: Contiene los modelos de tablas de base de datos (User, Post) y los modelos DTO de validación de entrada (UserCreate, PostCreate) para proteger la integridad de los datos.
-
-main.py: Contiene la instancia de FastAPI, la configuración de la base de datos y todos los endpoints de la API.
-
-5. Ejecutar el Servidor de Desarrollo
-Inicia la API indicando la ruta del archivo principal:
+Sincroniza e instala las dependencias:
 
 Bash
-uv run fastapi dev src/fastapi_examplemodel/main.py
-La base de datos posts.db se generará automáticamente en la raíz del proyecto al arrancar el servidor.
+uv sync
+Inicia el servidor de desarrollo de FastAPI:
 
-📖 Documentación de la API (Swagger UI)
-Una vez que el servidor esté corriendo, abre tu navegador y visita:
-http://127.0.0.1:8000/docs
+Bash
+uv run uvicorn src.fastapi_examplemodel.main:app --reload
+✅ Éxito: Si ves "Application startup complete", tu backend está corriendo.
+🔗 Swagger UI (Documentación interactiva): http://localhost:8000/docs
 
-Allí encontrarás la interfaz interactiva para probar los siguientes endpoints:
+Paso 4: Levantar el Frontend (React)
+Abre una NUEVA pestaña o ventana de terminal (deja el backend corriendo en la primera) y sigue estos pasos:
 
-Endpoints de Usuarios
-POST /users: Crea un nuevo usuario validando que el email no esté duplicado.
+Ingresa a la carpeta del frontend:
 
-GET /users: Obtiene la lista de todos los usuarios registrados.
+Bash
+cd frontend
+Instala todas las dependencias de Node.js:
 
-Endpoints de Posts
-POST /posts: Crea un nuevo post asignado a un usuario existente (verifica la llave foránea).
+Bash
+npm install
+Inicia el servidor de desarrollo de Vite:
 
-GET /posts: Obtiene todos los posts.
+Bash
+npm run dev
+✅ Éxito: La terminal te mostrará una dirección local.
+🔗 Aplicación Web: http://localhost:5173
 
-GET /posts/latest: Obtiene el último post registrado.
+🎮 Uso Básico
+Entra a http://localhost:5173.
 
-GET /posts/{id}: Busca un post específico por su ID.
+Ve a la sección Iniciar Sesión y regístrate como un usuario nuevo.
 
-PUT /posts/{id}: Actualiza los datos de un post existente.
+Para simular videos (hasta que se integre la subida por AWS S3), puedes ir a http://localhost:8000/docs, usar el endpoint POST /videos, e insertar datos de prueba utilizando el id de tu usuario recién creado.
 
-DELETE /posts/{id}: Elimina un post de la base de datos.
+Vuelve al inicio y comienza a explorar la plataforma.

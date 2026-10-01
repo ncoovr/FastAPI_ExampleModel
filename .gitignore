@@ -1,14 +1,17 @@
-# Entornos virtuales
+# Python / FastAPI
+__pycache__/
+*.py[cod]
 .venv/
 venv/
 env/
-
-# Bases de datos SQLite
-*.db
-*.sqlite3
-posts.db
-
-# Archivos de caché de Python
-__pycache__/
-*.pyc
 .env
+
+# Node.js / React (Frontend)
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+npm-debug.log*
+
+# SO
+.DS_Store
+Thumbs.db
