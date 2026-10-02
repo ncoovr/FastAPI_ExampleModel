@@ -8,7 +8,6 @@ export default function Profile() {
   const navigate = useNavigate();
   const userId = localStorage.getItem('stream_user_id');
 
-  // Estados del formulario
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [videoFile, setVideoFile] = useState(null);
@@ -36,7 +35,6 @@ export default function Profile() {
       return;
     }
 
-    // Usamos FormData porque enviaremos archivos físicos, no solo JSON
     const formData = new FormData();
     formData.append('title', title);
     formData.append('description', description);
@@ -45,7 +43,6 @@ export default function Profile() {
     formData.append('thumbnail', thumbnailFile);
 
     try {
-      // Este endpoint de FastAPI lo crearemos a continuación junto con AWS S3
       const response = await fetch('http://localhost:8000/videos/upload', {
         method: 'POST',
         body: formData, 
@@ -54,7 +51,7 @@ export default function Profile() {
       if (response.ok) {
         alert("¡Video subido con éxito!");
         setShowUploadModal(false);
-        window.location.reload(); // Recarga para ver el nuevo video
+        window.location.reload();
       } else {
         alert("Error al subir el video.");
       }
@@ -67,7 +64,6 @@ export default function Profile() {
 
   return (
     <div>
-      {/* Cabecera del Perfil */}
       <div style={{ backgroundColor: '#18181b', padding: '30px', borderRadius: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px', flexWrap: 'wrap', gap: '20px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
           <div style={{ width: '80px', height: '80px', borderRadius: '50%', backgroundColor: '#27272a', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -91,7 +87,6 @@ export default function Profile() {
         </div>
       </div>
 
-      {/* Panel Desplegable de Subida */}
       {showUploadModal && (
         <form onSubmit={handleUpload} style={{ backgroundColor: '#18181b', padding: '30px', borderRadius: '12px', marginBottom: '30px', border: '1px solid #1db954' }}>
           <h2 style={{ margin: '0 0 20px 0', display: 'flex', justifyContent: 'space-between' }}>
@@ -125,7 +120,6 @@ export default function Profile() {
         </form>
       )}
 
-      {/* Catálogo personal */}
       <h2 style={{ color: '#fff', marginBottom: '20px' }}>Mis Publicaciones</h2>
       <section className="video-grid" style={{ padding: 0 }}>
         {!userData.videos || userData.videos.length === 0 ? (

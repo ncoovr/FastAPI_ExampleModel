@@ -13,7 +13,6 @@ export default function Login() {
     e.preventDefault();
     setError('');
 
-    // Determinamos la ruta y el cuerpo de la petición según si es Login o Registro
     const endpoint = isLogin ? 'http://localhost:8000/login' : 'http://localhost:8000/users';
     const payload = isLogin ? { email, password } : { name, email, password };
 
@@ -30,11 +29,9 @@ export default function Login() {
         throw new Error(data.detail || 'Ocurrió un error');
       }
 
-      // Guardamos el ID del usuario en el almacenamiento local del navegador
       const userId = isLogin ? data.user_id : data.id;
       localStorage.setItem('stream_user_id', userId);
 
-      // Redirigimos al catálogo
       navigate('/home');
 
     } catch (err) {

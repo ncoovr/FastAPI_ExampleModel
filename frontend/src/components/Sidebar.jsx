@@ -12,13 +12,11 @@ export default function Sidebar() {
 
   return (
     <aside className="sidebar">
-      {/* Logo */}
       <Link to="/home" className="sidebar-logo">
         <MonitorPlay size={32} color="#1db954" />
         <span>U|STREAM</span>
       </Link>
 
-      {/* Menú */}
       <nav className="sidebar-menu">
         <Link to="/home" className="nav-link">
           <Home size={20} /> <span>Inicio</span>
@@ -30,7 +28,6 @@ export default function Sidebar() {
           </Link>
         )}
 
-        {/* Zona inferior para el Login/Logout */}
         <div style={{ marginTop: 'auto' }}>
           {userId ? (
              <button onClick={handleLogout} className="nav-link logout">

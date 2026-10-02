@@ -2,7 +2,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from sqlmodel import SQLModel
 
-# RUTAS ABSOLUTAS:
 from src.fastapi_examplemodel.database import engine
 from src.fastapi_examplemodel.routers import users, videos, comments
 

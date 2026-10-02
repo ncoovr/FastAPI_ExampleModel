@@ -2,7 +2,6 @@ from datetime import datetime, timezone
 from typing import Optional, List
 from sqlmodel import Field, SQLModel, Relationship
 
-# --- USUARIO ---
 class UsuarioBase(SQLModel):
     name: str
     email: str = Field(unique=True, index=True)
@@ -20,7 +19,6 @@ class Usuario(UsuarioBase, table=True):
     videos: List["Video"] = Relationship(back_populates="usuario")
     comentarios: List["Comentario"] = Relationship(back_populates="usuario")
 
-# --- VIDEO ---
 class VideoBase(SQLModel):
     title: str
     description: str
@@ -41,7 +39,6 @@ class Video(VideoBase, table=True):
     usuario: Optional[Usuario] = Relationship(back_populates="videos")
     comentarios: List["Comentario"] = Relationship(back_populates="video", cascade_delete=True)
 
-# --- COMENTARIO ---
 class ComentarioBase(SQLModel):
     content: str
     user_id: int = Field(foreign_key="usuario.id")

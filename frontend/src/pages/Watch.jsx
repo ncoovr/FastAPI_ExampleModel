@@ -12,26 +12,22 @@ export default function Watch() {
   useEffect(() => {
     if (!id || id === "undefined") return;
 
-    // 1. Cargar el video actual
     fetch(`http://localhost:8000/videos/${id}`)
       .then(res => res.json())
       .then(data => {
         if (!data.detail) setVideo(data);
       });
 
-    // 2. Cargar comentarios
     fetch(`http://localhost:8000/videos/${id}/comments`)
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data)) setComments(data);
       });
 
-    // 3. NUEVO: Cargar videos recomendados (Catálogo completo menos el actual)
     fetch(`http://localhost:8000/videos/`)
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data)) {
-          // Filtramos para no recomendar el mismo video que ya estamos viendo
           const filtered = data.filter(v => v.id !== parseInt(id));
           setRecommended(filtered);
         }
@@ -63,7 +59,6 @@ export default function Watch() {
   return (
     <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
       
-      {/* SECCIÓN IZQUIERDA: Reproductor */}
       <section style={{ flex: '1 1 65%', minWidth: '300px' }}>
         <div style={{ width: '100%', backgroundColor: '#000', borderRadius: '12px', overflow: 'hidden', aspectRatio: '16/9' }}>
           <video src={video.video_url} controls autoPlay style={{ width: '100%', height: '100%' }}></video>
@@ -80,10 +75,8 @@ export default function Watch() {
         </div>
       </section>
 
-      {/* SECCIÓN DERECHA: Comentarios y Recomendados */}
       <aside style={{ flex: '1 1 30%', minWidth: '300px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
         
-        {/* Panel de Comentarios */}
         <div style={{ backgroundColor: '#18181b', padding: '20px', borderRadius: '12px' }}>
           <h3 style={{ marginTop: 0, borderBottom: '1px solid #27272a', paddingBottom: '10px' }}>Comentarios</h3>
           <form onSubmit={handleCommentSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' }}>
@@ -109,7 +102,6 @@ export default function Watch() {
           </div>
         </div>
 
-        {/* Panel de Videos Recomendados */}
         <div style={{ backgroundColor: '#18181b', padding: '20px', borderRadius: '12px' }}>
           <h3 style={{ marginTop: 0, borderBottom: '1px solid #27272a', paddingBottom: '10px' }}>Recomendados para ti</h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>

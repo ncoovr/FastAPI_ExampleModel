@@ -2,13 +2,11 @@ from fastapi import APIRouter, HTTPException, status
 from sqlmodel import select
 import bcrypt
 
-# RUTAS ABSOLUTAS:
 from src.fastapi_examplemodel.models import Usuario, UsuarioCreate, UsuarioLogin
 from src.fastapi_examplemodel.database import SessionDep
 
 router = APIRouter(tags=["Users"])
 
-# Funciones nativas de bcrypt para reemplazar passlib
 def hash_password(password: str) -> str:
     salt = bcrypt.gensalt()
     return bcrypt.hashpw(password.encode('utf-8'), salt).decode('utf-8')
@@ -22,7 +20,6 @@ def create_user(user_in: UsuarioCreate, session: SessionDep):
     if user_exists:
         raise HTTPException(status_code=400, detail="El correo ya está registrado")
     
-    # Usamos nuestra nueva función segura
     hashed_password = hash_password(user_in.password)
     db_user = Usuario(name=user_in.name, email=user_in.email, password_hash=hashed_password)
     
@@ -35,7 +32,6 @@ def create_user(user_in: UsuarioCreate, session: SessionDep):
 def login(user_credentials: UsuarioLogin, session: SessionDep):
     user = session.exec(select(Usuario).where(Usuario.email == user_credentials.email)).first()
     
-    # Verificamos con la función nativa
     if not user or not verify_password(user_credentials.password, user.password_hash):
         raise HTTPException(status_code=401, detail="Credenciales inválidas")
     

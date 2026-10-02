@@ -1,7 +1,6 @@
 from fastapi import APIRouter, HTTPException, status
 from sqlmodel import select
 
-# RUTAS ABSOLUTAS:
 from src.fastapi_examplemodel.models import Comentario, ComentarioCreate, Video, Usuario
 from src.fastapi_examplemodel.database import SessionDep
 
